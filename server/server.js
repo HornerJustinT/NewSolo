@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 // Route includes
 const userRouter = require('./routes/user.router');
+const runRouter = require('./routes/run.router')
 
 // Body parser middleware
 app.use(bodyParser.json());
@@ -14,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Routes */
 app.use('/api/user', userRouter);
+app.use('/api/run', runRouter);
 
 // Serve static files
 app.use(express.static('build'));
