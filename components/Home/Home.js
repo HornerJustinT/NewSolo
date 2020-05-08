@@ -11,51 +11,44 @@ class HomeScreen extends Component {
   }
     render() {
       console.log(this.props.runs[0]);
-      if(this.props.runs[0]){
+      if(this.props.runs[0]&& this.props.user[0].id){
         return (
           <ScrollView style={styles.container}>
                 {this.props.runs.map( run =>
                     <Run key={run.id} run={run} navigation={this.props.navigation} />
                     )}
             <Button onPress={() => this.props.navigation.navigate('Add')}  title = "Add Run" color = 'green'/>
-            <Text>{this.props.user[0].user_name} Your first run is {this.props.runs[0].length} Miles</Text><Button onPress={() => this.props.navigation.navigate('Edit')}  title = "Edit Run" color = 'green'/>
           </ScrollView>
         )
       }
       else{
         return(
-          <View style={styles.container}>
+          <View style={otherStyles.container}>
+            <Text style = {otherStyles.titleText}>You Have No Runs! Shouldn't you go Running?</Text>
+                        <Button onPress={() => this.props.navigation.navigate('Add')}  title = "Add Run" color = 'green'/>
             </View>
         )
       }
 
     }
   }
-  // const styles = StyleSheet.create({
-  //   container: {
-  //     flex: 1,
-  //     justifyContent: 'center',
-  //     alignItems: 'center',
-  //     backgroundColor: '#F5FCFF',
-  //   },
-  //   welcome: {
-  //     fontSize: 20,
-  //     textAlign: 'center',
-  //     margin: 10,
-  //   },
-  //   instructions: {
-  //     textAlign: 'center',
-  //     color: '#333333',
-  //     marginBottom: 5,
-  //   },
-
-    
-  // });
+  const otherStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      alignItems: "center",
+      backgroundColor: "#fff",
+      justifyContent: "center",
+    },
+    titleText: {
+      fontSize: 20,
+      fontWeight: "bold"
+    }
+  });
   const styles = StyleSheet.create({
     container: {
       flex: 1,
       // alignItems: "center",
-      backgroundColor: "#fff"
+      backgroundColor: "#fff",
       // justifyContent: "center"
     }
   });
