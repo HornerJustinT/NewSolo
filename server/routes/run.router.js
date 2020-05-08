@@ -19,4 +19,44 @@ router.get('/:runnerId', (req, res) => {
       });
   });
 
+
+router.put('/:runId', (req, res) => {
+  // req.body should contain a category_id to add to this favorite image
+  const data = req.body;  const id = req.params.runId;
+  console.log( `editing for run id ${id}`)
+  const queryText = `UPDATE run_history
+                      SET length = ($1), time = ($2), date = ($3)
+                      WHERE id = ($4)`;
+  const queryValues = [
+    req.body.Miles,
+    req.body.Time,
+    req.body.Date,
+    id
+  ]
+  pool.query(queryText, queryValues)
+    .then(() => {res.sendStatus(201);})
+    .catch((err) => {
+      console.log('Error completing put category',err);
+      res.sendStatus(500)
+    })
+});
+router.post('/', (req, res) => {
+  // req.body should contain a category_id to add to this favorite image
+  console.log( `adding Run`)
+  const queryText = `INSERT INTO run_history (runner_id, length, time, pace, date)
+                      values ($1, $2, $3, 10, $4)`
+  const queryValues = [
+    req.body.runnerId,
+    req.body.Miles,
+    req.body.Time,
+    req.body.Date,
+  ]
+  pool.query(queryText, queryValues)
+    .then(() => {res.sendStatus(201);})
+    .catch((err) => {
+      console.log('Error completing post category',err);
+      res.sendStatus(500)
+    })
+});
+
   module.exports = router;

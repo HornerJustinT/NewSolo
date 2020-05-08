@@ -10,7 +10,6 @@ class Run extends React.Component {
   editRun = ()=>{
     this.props.dispatch({ type: 'EDIT_CURRENT_RUN', payload: this.props.run.id});
     this.props.navigation.navigate('Edit');
-
   }
   render() {
     return (

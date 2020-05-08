@@ -1,51 +1,73 @@
 // react native app
 import React, { Component } from "react";
-import {connect} from 'react-redux';
+import { connect } from "react-redux";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
-
+import { Input, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
+import DateTimePicker from '@react-native-community/datetimepicker';
+const date = new Date();
 class Edit extends Component {
-  // edit specific run then goes back to database
-    render() {
-      return (
-        <View style={styles.container}>
-          <Text>{this.props.user[0].user_name} Edit this run Miles</Text>
-        </View>
-      )
-    }
+  state = {
+    Miles: "",
+    Time: "",
+    Date: "",
+    currentRun: this.props.currentRun,
+    runnerId: this.props.user
   }
   
-//   const styles = StyleSheet.create({
-//     container: {
-//       flex: 1,
-//       justifyContent: 'center',
-//       alignItems: 'center',
-//       backgroundColor: '#F5FCFF',
-//     },
-//     welcome: {
-//       fontSize: 20,
-//       textAlign: 'center',
-//       margin: 10,
-//     },
-//     instructions: {
-//       textAlign: 'center',
-//       color: '#333333',
-//       marginBottom: 5,
-//     },
+  handleSubmit = (event) => {
+    console.log(this.props);
+    console.log(this.state.Miles);
+    this.props.dispatch({ type: "EDIT_RUN", payload: this.state });
+    this.props.navigation.navigate('Home');
+  };
+  // edit specific run then goes back to database
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text>
+          {this.props.user[0].user_name} Edit this run Miles
+          {this.props.currentRun}
+        </Text>
+        <Input
+   placeholder="Miles"
+   style={styles}
+   onChangeText={value => this.setState({ Miles: value })}
+  />
+          <Input
+   placeholder="Time"
+   style={styles}
+   onChangeText={value => this.setState({ Time: value })}
+  />
+              <Input
+   placeholder="Date"
+   style={styles}
+   onChangeText={value => this.setState({ Date: value })}
+  />
+  <Button
+  onPress={this.handleSubmit}
+  title="Edit Run"
+  color="#841584"
+  accessibilityLabel="Learn more about this purple button"
+/>
 
-    
-//   });
+
+      </View>
+    );
+  }
+}
+
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: "center",
-      backgroundColor: "#fff",
-      justifyContent: "center"
-    }
-  });
-  const putPropsOnReduxStore = (reduxStore) => ({
-    user: reduxStore.getUserReducer,
-    runs: reduxStore.getRunHistory
-  });
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fff",
+    justifyContent: "center",
+  },
+});
+const putPropsOnReduxStore = (reduxStore) => ({
+  user: reduxStore.getUserReducer,
+  runs: reduxStore.getRunHistory,
+  currentRun: reduxStore.getCurrentRunID,
+});
 
-
-  export default connect(putPropsOnReduxStore)(Edit);
+export default connect(putPropsOnReduxStore)(Edit);
