@@ -55,7 +55,7 @@ router.get('/:name', (req, res) => {
  */
 router.put("/:userName", (req, res) => {
   console.log('in addUser', req.params.userName)
-  const queryText = `INSERT INTO users (user_name) VALUES ($1);`;
+  const queryText = `INSERT INTO users (user_name) VALUES ($1) returning "id";`;
   const queryValues = [ 
     req.params.userName
   ]

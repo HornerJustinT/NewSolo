@@ -91,8 +91,10 @@ function* editCurrentRunSaga(action){
 function* addUserSaga(action){
   console.log('in addUserSaga', action.payload);
   try{
-    const response = yield axios.put(`http://192.168.0.79:5000/api/user/${action.payload}`)
-    console.log('Add User saga', response.data);
+    yield axios.put(`http://192.168.0.79:5000/api/user/${action.payload}`)
+    const response = yield axios.get(`http://192.168.0.79:5000/api/user/${action.payload}`);
+    console.log('Add User saga', response.data[0].id);
+    yield put({type: 'GET_CURRENT_USER', payload: response.data})
   }
   catch(error){
     console.log('Error with Search Get', error);
@@ -101,6 +103,7 @@ function* addUserSaga(action){
 function* getUserRunsSaga(action){
   console.log('in getuserrunssaga', action.payload);
   try{
+    console.log(`http://192.168.0.79:5000/api/run/${action.payload}`)
     const response = yield axios.get(`http://192.168.0.79:5000/api/run/${action.payload}`);
     console.log("get user runs response", response.data)
     yield put ({type: 'GET_RUN_HISTORY', payload: response.data})
@@ -118,7 +121,10 @@ function* checkLoginSaga(action){
     if(response.data.length==0){
       yield put ({type: 'ADD_USER', payload: action.payload})
     }
-    yield put({type: 'GET_CURRENT_USER', payload: response.data})
+    else{
+      yield put({type: 'GET_CURRENT_USER', payload: response.data})
+    }
+
 
   }
   catch(error){
