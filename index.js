@@ -61,6 +61,18 @@ function* rootSaga(){
     yield takeEvery('EDIT_CURRENT_RUN', editCurrentRunSaga)
     yield takeEvery('EDIT_RUN', editRunSaga)
     yield takeEvery('ADD_RUN', addRunSaga)
+    yield takeEvery('DELETE_RUN', deleteRunSaga)
+}
+function* deleteRunSaga(action){
+  console.log('in delete run', action.payload)
+  try{
+    const response = yield axios.delete(`http://192.168.0.79:5000/api/run/${action.payload.currentRun}`)
+    console.log('delete run response', response.data)
+  }
+  catch(error){
+    console.log('error delete run', error)
+  }
+  yield put ({type: 'GET_USER_RUNS', payload: action.payload.runnerId[0].id})
 }
 function* addRunSaga(action){
   console.log('in add run', action.payload)

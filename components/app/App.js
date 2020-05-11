@@ -31,7 +31,7 @@ class App extends Component {
         scope: "openid profile email"
       })
       .then(credentials => {
-        Alert.alert("AccessToken: " + credentials.accessToken);
+        // Alert.alert("AccessToken: " + credentials.accessToken);
         this.setState({ accessToken: credentials.accessToken });
         // this.props.dispatch({ type: "SET_USERS", payload: credentials.accessToken });
         // get all the users on database, if rows>0 where username== user.nickname, nothing ELSE insert user
@@ -76,14 +76,14 @@ class App extends Component {
     else{
       return(
       <View style={styles.container}>
-      <Text style={styles.header}> Run Logger - Login </Text>
+      <Text style={styles.welcome}> Run Logger - Login </Text>
       <Text>
-        You are{loggedIn ? ` ${this.state.username} ` : " not "}logged in .{" "}
+        You are{loggedIn ? ` ${this.state.username} ` : " not "}logged in.{" "}
       </Text>
       <Text>
         {loggedIn
-          ? `Thanks for being logged in you definetly don't need HAAAAAAAAALLLLLLLLP`
-          : " You need HAAAAAAALLLLLLPPPPP"}{" "}
+          ? `Thanks for being logged in, if you want to logout please press the logout button`
+          : "Please log in through the login button "}{" "}
       </Text>
       <Button
         onPress={loggedIn ? this._onLogout : this._onLogin}
@@ -120,6 +120,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#fff",
     justifyContent: "center"
+  },
+    welcome: {
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 10,
   }
 });
 const putPropsOnReduxStore = (reduxStore) => ({

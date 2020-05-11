@@ -14,9 +14,25 @@ class HomeScreen extends Component {
       if(this.props.runs[0]&& this.props.user[0].id){
         return (
           <ScrollView style={styles.container}>
-                {this.props.runs.map( run =>
-                    <Run key={run.id} run={run} navigation={this.props.navigation} />
-                    )}
+                {this.props.runs.map( run => // have runs change through here
+    {if (run.pace[1] == ":" && run.pace.length == 3) {
+      run.pace = "0" + run.pace.slice(0,2) + '0' + run.pace.slice(2)
+      return( <Run key={run.id} run={run} navigation={this.props.navigation} />)
+    }
+    else if (run.pace[1]==":"){
+        run.pace= "0" + run.pace 
+        return(<Run key={run.id} run={run} navigation={this.props.navigation} />)
+    }
+
+    else if( run.pace[2] == ":" && run.pace.length==4){
+        run.pace = (run.pace.slice(0,3)+'0'+ run.pace.slice(3))
+        return  (<Run key={run.id} run={run} navigation={this.props.navigation} />)
+      }
+      return(
+        <Run key={run.id} run={run} navigation={this.props.navigation} />)
+    }
+
+    )}
             <Button onPress={() => this.props.navigation.navigate('Add')}  title = "Add Run" color = 'green'/>
           </ScrollView>
         )
