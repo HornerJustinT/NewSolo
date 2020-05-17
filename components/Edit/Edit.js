@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 import { Input, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements'
-import DateTimePicker from '@react-native-community/datetimepicker';
+import DatePicker from 'react-native-datepicker'
 const date = new Date();
 class Edit extends Component {
   state = {
@@ -25,8 +25,7 @@ class Edit extends Component {
     return (
       <View style={styles.container}>
         <Text>
-          {this.props.user[0].user_name} Edit this run Miles
-          {this.props.currentRun}
+          Hello {this.props.user[0].user_name}! Edit Run {this.props.currentRun}
         </Text>
         <Input
    placeholder="Miles"
@@ -38,11 +37,30 @@ class Edit extends Component {
    style={styles}
    onChangeText={value => this.setState({ Time: value })}
   />
-              <Input
-   placeholder="Date"
-   style={styles}
-   onChangeText={value => this.setState({ Date: value })}
-  />
+      <DatePicker
+        style={{width: 200}}
+        date={this.state.Date}
+        mode="date"
+        placeholder="select date"
+        format="YYYY-MM-DD"
+        minDate="1900-01-01"
+        maxDate="2199-01-01"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={(date) => {this.setState({Date: date})}}
+      />
   <Button
   onPress={this.handleSubmit}
   title="Edit Run"

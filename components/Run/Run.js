@@ -55,6 +55,10 @@ const styles = StyleSheet.create({
     marginTop: 16,
     backgroundColor: "#fff",
     justifyContent: "center"
+  },
+  titleText: {
+    fontSize: 20,
+    fontWeight: "bold"
   }
 });
 
