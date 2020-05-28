@@ -20,10 +20,20 @@ class Edit extends Component {
     this.props.dispatch({ type: "EDIT_RUN", payload: this.state });
     this.props.navigation.navigate('Home');
   };
+  delete = (event) => {
+    this.props.dispatch({ type: 'DELETE_RUN', payload: this.state})
+    this.props.navigation.navigate('Home')
+  }
   // edit specific run then goes back to database
   render() {
     return (
       <View style={styles.container}>
+          <Button
+  onPress={this.delete}
+  title="Delete Run"
+  color="#841584"
+  accessibilityLabel="Learn more about this purple button"
+/>
         <Text>
           Hello {this.props.user[0].user_name}! Edit Run {this.props.currentRun}
         </Text>
