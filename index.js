@@ -66,7 +66,7 @@ function* rootSaga(){
 function* deleteRunSaga(action){
   console.log('in delete run', action.payload)
   try{
-    const response = yield axios.delete(`http://192.168.0.79:5000/api/run/${action.payload.currentRun}`)
+    const response = yield axios.delete(`http://localhost:5000/api/run/${action.payload.currentRun}`)
     console.log('delete run response', response.data)
   }
   catch(error){
@@ -77,7 +77,7 @@ function* deleteRunSaga(action){
 function* addRunSaga(action){
   console.log('in add run', action.payload)
   try{
-    const response = yield axios.post(`http://192.168.0.79:5000/api/run`, action.payload)
+    const response = yield axios.post(`http://localhost:5000/api/run`, action.payload)
     console.log('add saga', response.data);
   }
   catch(error){
@@ -88,7 +88,7 @@ function* addRunSaga(action){
 function* editRunSaga(action){
   console.log('in edit run', action.payload)
   try{
-    const response = yield axios.put(`http://192.168.0.79:5000/api/run/${action.payload.currentRun}`, action.payload)
+    const response = yield axios.put(`http://localhost:5000/api/run/${action.payload.currentRun}`, action.payload)
     console.log('edit saga', response.data);
   }
   catch(error){
@@ -103,8 +103,8 @@ function* editCurrentRunSaga(action){
 function* addUserSaga(action){
   console.log('in addUserSaga', action.payload);
   try{
-    yield axios.put(`http://192.168.0.79:5000/api/user/${action.payload}`)
-    const response = yield axios.get(`http://192.168.0.79:5000/api/user/${action.payload}`);
+    yield axios.put(`http://localhost:5000/api/user/${action.payload}`)
+    const response = yield axios.get(`http://localhost:5000/api/user/${action.payload}`);
     console.log('Add User saga', response.data[0].id);
     yield put({type: 'GET_CURRENT_USER', payload: response.data})
   }
@@ -115,8 +115,8 @@ function* addUserSaga(action){
 function* getUserRunsSaga(action){
   console.log('in getuserrunssaga', action.payload);
   try{
-    console.log(`http://192.168.0.79:5000/api/run/${action.payload}`)
-    const response = yield axios.get(`http://192.168.0.79:5000/api/run/${action.payload}`);
+    console.log(`http://localhost:5000/api/run/${action.payload}`)
+    const response = yield axios.get(`http://localhost:5000/api/run/${action.payload}`);
     console.log("get user runs response", response.data)
     yield put ({type: 'GET_RUN_HISTORY', payload: response.data})
   }
@@ -128,7 +128,7 @@ function* getUserRunsSaga(action){
 function* checkLoginSaga(action){
   console.log('in checkUserSaga', action.payload);
   try{
-    const response = yield axios.get(`http://192.168.0.79:5000/api/user/${action.payload}`);
+    const response = yield axios.get(`http://localhost:5000/api/user/${action.payload}`);
     console.log('check log in', response.data)
     if(response.data.length==0){
       yield put ({type: 'ADD_USER', payload: action.payload})
