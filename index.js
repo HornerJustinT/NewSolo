@@ -88,6 +88,7 @@ function* deleteRunSaga(action){
 }
 function* addRunSaga(action){
   console.log('in add run', action.payload)// add run to firebase
+
   // try{
   //   const response = yield axios.post(`http://localhost:5000/api/run`, action.payload)
   //   console.log('add saga', response.data);
@@ -97,13 +98,20 @@ function* addRunSaga(action){
   // }
   // yield put ({type: 'GET_USER_RUNS', payload: action.payload.runnerId})
   try{
-    const response = yield firebase.database().ref(`UsersList/${encode(action.payload)}/runs`);
+    const response = yield firebase.database().ref(`UsersList/${encode(action.payload.runnerId)}/runs`);
     response.once("value")
       .then(function(snapshot) {
         console.log(snapshot.exists())
-        firebase.database().ref(`UsersList/${encode(action.payload)}`).push({run:action.payload}); 
+        console.log(snapshot)
+        console.log(snapshot.numChildren())
+        let a = 1
+        if(snapshot.exists()){
+          a = snapshot.numChildren()+1
+        }
+        console.log(a);
+        firebase.database().ref(`UsersList/${encode(action.payload.runnerId)}/runs/${a}`).set({run:action.payload}); 
       })
-
+//try counting number of runs
   }
   catch(error){
     console.log('Error with add run', error)
