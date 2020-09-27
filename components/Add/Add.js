@@ -10,7 +10,7 @@ class Add extends Component {
     Miles: "",
     Time: "",
     Date: "",
-    runnerId: this.props.user[0].id,
+    runnerId: this.props.user
   };
   // add run screen
   // adds run to database then goes back to home

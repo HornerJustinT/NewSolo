@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-
+apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -17,7 +17,7 @@ import com.android.build.OutputFile
  *
  *   // the entry file for bundle generation
  *   entryFile: "index.android.js",
- *
+ *classpath 'com.google.gms:google-services:3.0.0'
  *   // https://facebook.github.io/react-native/docs/performance#enable-the-ram-format
  *   bundleCommand: "ram-bundle",
  *
@@ -181,6 +181,8 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'com.google.firebase:firebase-analytics:17.5.0'
+    implementation 'com.google.firebase:firebase-database:19.4.0'
 
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";

@@ -63,3 +63,6 @@ buck-out/
 
 # Auth0 configuration file
 app/auth0-configuration.js
+
+android/app/google-services.json
+components/firebase/

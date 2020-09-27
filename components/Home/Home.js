@@ -7,7 +7,8 @@ import Run from '../Run/Run'
 class HomeScreen extends Component {
   // home screen needs all the runs history
   componentDidMount(){
-    this.props.dispatch({ type: 'GET_USER_RUNS', payload: this.props.user[0].id})
+    console.log(this.props.user)
+    this.props.dispatch({ type: 'GET_USER_RUNS', payload: this.props.user})
   }
     render() {
       console.log(this.props.runs[0]);

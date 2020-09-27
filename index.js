@@ -13,7 +13,19 @@ const sagaMiddleware = createSagaMiddleware();
 import {name as appName} from './components/app/app.json';
 import axios from 'axios';
 import { act } from 'react-test-renderer';
+import {
+  encode,
+  decode,
+  encodeComponents,
+  decodeComponents,
+} from 'firebase-encode';
 
+var firebase = require("firebase");
+// import config from './android/app/google-services.json'
+import config from './components/firebase/config'
+if (!firebase.apps.length) {
+  firebase.initializeApp(config);
+}
 
 const getUserReducer = (state = [], action) => {
   switch (action.type) {
@@ -75,15 +87,27 @@ function* deleteRunSaga(action){
   yield put ({type: 'GET_USER_RUNS', payload: action.payload.runnerId[0].id})
 }
 function* addRunSaga(action){
-  console.log('in add run', action.payload)
+  console.log('in add run', action.payload)// add run to firebase
+  // try{
+  //   const response = yield axios.post(`http://localhost:5000/api/run`, action.payload)
+  //   console.log('add saga', response.data);
+  // }
+  // catch(error){
+  //   console.log('Error with edit put', error);
+  // }
+  // yield put ({type: 'GET_USER_RUNS', payload: action.payload.runnerId})
   try{
-    const response = yield axios.post(`http://localhost:5000/api/run`, action.payload)
-    console.log('add saga', response.data);
+    const response = yield firebase.database().ref(`UsersList/${encode(action.payload)}/runs`);
+    response.once("value")
+      .then(function(snapshot) {
+        console.log(snapshot.exists())
+        firebase.database().ref(`UsersList/${encode(action.payload)}`).push({run:action.payload}); 
+      })
+
   }
   catch(error){
-    console.log('Error with edit put', error);
+    console.log('Error with add run', error)
   }
-  yield put ({type: 'GET_USER_RUNS', payload: action.payload.runnerId})
 }
 function* editRunSaga(action){
   console.log('in edit run', action.payload)
@@ -126,21 +150,32 @@ function* getUserRunsSaga(action){
 }
 
 function* checkLoginSaga(action){
-  console.log('in checkUserSaga', action.payload);
   try{
-    const response = yield axios.get(`http://localhost:5000/api/user/${action.payload}`);
-    console.log('check log in', response.data)
-    if(response.data.length==0){
-      yield put ({type: 'ADD_USER', payload: action.payload})
-    }
-    else{
-      yield put({type: 'GET_CURRENT_USER', payload: response.data})
-    }
+    const response = yield firebase.database().ref(`UsersList/${encode(action.payload)}`);
+    response.once("value")
+      .then(function(snapshot) {
+        console.log(snapshot.exists())
+        if(snapshot.exists()){
+          console.log('sucess')
+        }
+        else{
+          firebase.database().ref(`UsersList/${encode(action.payload)}`).set({runs:{}}); 
+        }// if a exists then don't do anything if not then make a new
+      })
+      yield put({type:'GET_CURRENT_USER', payload:action.payload})
+    // const response = yield axios.get(`http://localhost:5000/api/user/${action.payload}`);
+    // console.log('check log in', response.data)
+    // if(response.data.length==0){
+    //   yield put ({type: 'ADD_USER', payload: action.payload})
+    // }
+    // else{
+    //   yield put({type: 'GET_CURRENT_USER', payload: response.data})
+    // }
 
 
   }
   catch(error){
-    console.log('Error with check get')
+    console.log('Error with check get', error)
   }
 }
 let store = createStore(combineReducers({ getUserReducer, getRunHistory, getCurrentRunID }),applyMiddleware(sagaMiddleware));
