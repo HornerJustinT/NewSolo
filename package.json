@@ -16,6 +16,7 @@
     "@paraboly/react-native-card": "^0.3.0",
     "@react-native-community/datetimepicker": "^2.3.2",
     "@react-native-community/masked-view": "^0.1.10",
+    "@react-native-community/toolbar-android": "^0.1.0-rc.2",
     "@react-navigation/stack": "^5.2.14",
     "antd": "^4.2.0",
     "axios": "^0.19.2",
